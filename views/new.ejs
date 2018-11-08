@@ -1,0 +1,6 @@
+<h1>Choose a New Book Here!</h1>
+<% data["items"].forEach((book) => { %>
+    <li>
+        <%= book["volumeInfo"]["title"] %>
+    </li>
+<% }) %>
