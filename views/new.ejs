@@ -1,6 +1,51 @@
-<h1>Choose a New Book Here!</h1>
-<% data["items"].forEach((book) => { %>
-    <li>
-        <%= book["volumeInfo"]["title"] %>
-    </li>
-<% }) %>
+<% include partials/header %>
+
+<div class = "container">
+    
+    <% include partials/search %>
+     
+    <div class="row" style= "display: flex; flex-wrap: wrap;">
+
+    
+        <% if (data["items"]){ %>
+            <% data["items"].forEach((book) => { %>
+                <div class="col-md-3 col-sm-6">
+                    <div class="img-thumbnail">
+                        <div class="caption">
+                            <h4>
+                                <% if (book['volumeInfo']['title']){ %>
+                                    <%= book['volumeInfo']['title'] %>
+                                <% } %>
+                            </h4>
+                        </div>
+                        <h6>
+                                <% if (book['volumeInfo']['authors']){ %>
+                                    <%= book['volumeInfo']['authors'][0] %>
+                                <% } %>
+                        </h6>
+                        <% if (book['volumeInfo']['imageLinks']){ %>
+                            <div class="text-center">
+                                <img src="<%= book['volumeInfo']['imageLinks']['thumbnail'] %>" alt="cover image">
+                            </div>
+                        <% } %>
+                        <div>
+                                
+                                <form class="my-2 my-lg-0" action="/details" method="GET">
+                                    <fieldset>
+                                        <div class="row">
+                                            
+                                            <input class="form-control mr-sm-2" type="text" value="<%= book['id'] %>" name="show_details" style="display: none;">
+                                            <input class="btn btn-link btn-block my-2 my-sm-0" type="submit" value="Details">
+                                        </div>
+                                    </fieldset>
+                                </form>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+                <h2>We didn't find any books that match your search.  Please try again.</h2>
+            <% } %> 
+     </div>
+</div>
+<% include partials/footer %>

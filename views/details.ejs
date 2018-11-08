@@ -1,0 +1,42 @@
+<% include partials/header %>
+
+<div class = "container">
+     
+    <div class="row" style= "display: flex; flex-wrap: wrap;">
+
+    <% if (book){ %>
+            <div class="col-md-3 col-sm-6">
+                <div class="img-thumbnail">
+                    <div class="caption">
+                        <h4>
+                            <% if (book['volumeInfo']['title']){ %>
+                                <%= book['volumeInfo']['title'] %>
+                            <% } %>
+                        </h4>
+                    </div>
+                    <h6>
+                        <% if (book['volumeInfo']['authors']){ %>
+                            <%= book['volumeInfo']['authors'][0] %>
+                        <% } %>
+                    </h6>
+                    <% if (book['volumeInfo']['imageLinks']){ %>
+                        <div class="text-center">
+                            <img src="<%= book['volumeInfo']['imageLinks']['thumbnail'] %>" alt="cover image">
+                        </div>
+                    <% } %>
+                    <div>
+                        <p>
+                            <% if (book['volumeInfo']['description']){ %>
+                                <%= book['volumeInfo']['description'] %>
+                            <% } %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+    <% } else { %>
+            <h2>We didn't find any books that match your search.  Please try again.</h2>
+        <% } %> 
+     </div>
+</div>
+<% include partials/footer %>
+
