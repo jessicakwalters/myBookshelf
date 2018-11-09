@@ -1,8 +1,8 @@
-<% include partials/header %>
+<% include ../partials/header %>
 
 <div class = "container">
     
-    <% include partials/search %>
+    <% include ../partials/searchBlock %>
      
     <div class="row" style= "display: flex; flex-wrap: wrap;">
 
@@ -29,16 +29,9 @@
                             </div>
                         <% } %>
                         <div>
-                                
-                                <form class="my-2 my-lg-0" action="/details" method="GET">
-                                    <fieldset>
-                                        <div class="row">
-                                            
-                                            <input class="form-control mr-sm-2" type="text" value="<%= book['id'] %>" name="show_details" style="display: none;">
-                                            <input class="btn btn-link btn-block my-2 my-sm-0" type="submit" value="Details">
-                                        </div>
-                                    </fieldset>
-                                </form>
+                                <p>
+                                    <a href="/search_results/<%= book['id'] %>" class="btn btn-link btn-block my-2 my-sm-0">Details</a>
+                                </p>
                         </div>
                     </div>
                 </div>
@@ -48,4 +41,4 @@
             <% } %> 
      </div>
 </div>
-<% include partials/footer %>
+<% include ../partials/footer %>

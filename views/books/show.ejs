@@ -1,0 +1,45 @@
+<% include ../partials/header %>
+
+<div class = "container">
+    <div class="row" style= "display: flex; flex-wrap: wrap;">
+            <div class="">
+                <div class="img">
+                    <div class="caption">
+                        <h4>
+                            <%= book.title %>
+                        </h4>
+                    </div>
+                    <h6>
+                        <%= book.author %>
+                    </h6>
+                        <div class="text-center">
+                            <img src="<%= book.image %>" alt="cover image">
+                        </div>
+                    <div>
+                        <p>
+                            <%= book.description %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+     </div>
+</div>
+<div class="text-right">
+        <a class="btn btn-success" href="/books/<%= book._id %>/notes/new">Add A Note</a>
+    </div>
+<hr>
+<% book.notes.forEach((note) => { %>
+    <div class="row">
+        <div class="col-md-12">
+            <strong><%= note.author%> </strong>
+            <span class="pull-right">10 days ago</span>
+            <p class="caption"> 
+                <%= note.text %> 
+            </p>
+        </div>
+    </div>
+    
+
+<% }) %>
+<% include ../partials/footer %>
+
