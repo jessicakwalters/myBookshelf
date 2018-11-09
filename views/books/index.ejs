@@ -1,0 +1,27 @@
+<% include ../partials/header %>
+
+<div class = "container">
+    <div class="row" style= "display: flex; flex-wrap: wrap;">
+            <% books.forEach((book) => { %>
+                <div class="col-md-3 col-sm-6">
+                    <div class="img-thumbnail">
+                        <div class="caption">
+                            <h4>
+                                <%= book.title; %>
+                            </h4>
+                        </div>
+                        <h6>
+                                <%= book.author; %>
+                        </h6>
+                            <div class="text-center">
+                                <img src="<%= book.image %>" alt="cover image">
+                            </div>
+                            <p>
+                                <a href="/books/<%= book._id %>" class="btn btn-primary">See My Book</a>
+                            </p>
+                    </div>
+                </div>
+            <% }) %>
+     </div>
+</div>
+<% include ../partials/footer %>
