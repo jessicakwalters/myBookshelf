@@ -12,20 +12,26 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">My BookShelf</a>
+                <a class="navbar-brand" href="/books">My BookShelf</a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">SignUp</a>
-                    </li>
+                    <% if(!currentUser){ %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/register">SignUp</a>
+                        </li>
+                    <% } else { %>
+                    
                     <li class="nav item">
-                        <a class="nav-link" href="/">My BookShelf</a>
+                        <a class="nav-link" href="/logout">Logout</a>
                     </li>
-    
+                    <li class="nav item nav-link">
+                        Hello <%= currentUser.username %>                        
+                    </li>
+                    <% } %>
                 </ul>
             </div>
         </div>
