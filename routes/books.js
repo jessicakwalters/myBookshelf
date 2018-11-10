@@ -62,6 +62,27 @@ router.get('/:id', (req, res) => {
   });
 });
 
+//EDIT
+router.get('/:id/edit', (req, res) => {
+  Book.findById(req.params.id, (err, foundBook) => {
+    // if(err){
+    //   res.redirect('/books');
+    // } else {
+      res.render('books/edit', {book: foundBook});
+    //}
+  });
+});
+
+//UPDATE
+router.put('/:id', (req, res) => {
+  Book.findByIdAndUpdate(req.params.id, req.body.book, (err, updatedBook) => {
+    if(err){
+      console.log(err);
+    } else {
+      res.redirect('/books/' + req.params.id);
+    }
+  });
+});
 //==================
 //Middleware
 //==================

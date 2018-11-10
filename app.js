@@ -6,6 +6,7 @@ const Book = require('./models/book');
 const passport = require('passport');
 
 const LocalStrategy = require('passport-local');
+const methodOverride = require('method-override');
 const User = require('./models/user');
 
 const Note = require('./models/note');
@@ -21,6 +22,7 @@ mongoose.connect('mongodb://localhost/my_bookshelf', { useNewUrlParser: true });
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
+app.use(methodOverride('_method'));
 app.set('view engine', 'ejs');
 
 //passport config
