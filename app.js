@@ -15,8 +15,6 @@ const PORT = process.env.PORT || 3000;
 
 mongoose.connect('mongodb://localhost/my_bookshelf', { useNewUrlParser: true });
 
-app.listen(PORT,() => console.log('Server listening on port 3000'));
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
@@ -33,6 +31,12 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+//make user available
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
+
 //ROUTES
 app.get('/', (req, res) => {
   res.render('index');
@@ -44,11 +48,12 @@ app.get('/', (req, res) => {
 
 //INDEX
 app.get('/books', (req, res) => {
+
   Book.find({}, (err, allBooks) => {
     if(err){
       console.log(err);
     } else {
-      res.render('books/index', {books:allBooks});
+      res.render('books/index', {books:allBooks, currentUser: req.user});
     }
   });
 });
@@ -99,7 +104,7 @@ app.get('/search_results', (req, res) => {
     if(!error && response.statusCode == 200) {
       let data = JSON.parse(body);
       res.render('search/index', {data: data});
-    }
+    } 
   });
 });
 
@@ -111,9 +116,10 @@ app.get('/search_results/:id', (req, res) => {
     // eslint-disable-next-line eqeqeq
     //ERRORS COMING BACK --> book undefined...hmmmm had to remove err handling same as books show
     if(!error) {
+      console.log(response.statusCode);
       let book = JSON.parse(body);
       res.render('search/show', {book: book});
-    }
+    } 
   });
 });
 
@@ -122,22 +128,35 @@ app.get('/search_results/:id', (req, res) => {
 //===================
 
 //New
-app.get('/books/:id/notes/new', (req, res) => {
+app.get('/books/:id/notes/new', isLoggedIn, (req, res) => {
   Book.findById(req.params.id, (err, foundBook) => {
     //ERRORS COMING BACK --> book undefined...hmmmm had to remove err handling
     //display book info
-    res.render('notes/new', {book: foundBook});
+    if(err){
+        console.log(err);
+    } else {
+        res.render('notes/new', {book: foundBook});
+    }
+    
   });
 });
 
-app.post('/books/:id/notes', (req, res) => {
+app.post('/books/:id/notes', isLoggedIn, (req, res) => {
 //lookup book
   Book.findById(req.params.id, (err, book) => {
-    Note.create(req.body.note, (err, note) => {
-      book.notes.push(note);
-      book.save();
-      res.redirect('/books/' + book._id);
-    });
+    if(err){
+      console.log(err);
+    } else {
+      Note.create(req.body.note, (err, note) => {
+        if(err){
+          console.log(err);
+        } else {
+          book.notes.push(note);
+          book.save();
+          res.redirect('/books/' + book._id);
+        }
+      });
+    }
   });
 });
 
@@ -180,3 +199,21 @@ app.post('/login', passport.authenticate('local',
     failureRedirect: '/login'
   }), (req, res) => {
 });
+
+//logout
+app.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/books');
+});
+
+//==================
+//Middleware
+//==================
+
+function isLoggedIn(req, res, next) {
+  if(req.isAuthenticated()) {
+      return next();
+  }
+  res.redirect('/login');
+}
+app.listen(PORT,() => console.log('Server listening on port 3000'));
