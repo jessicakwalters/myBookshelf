@@ -65,11 +65,11 @@ router.get('/:id', (req, res) => {
 //EDIT
 router.get('/:id/edit', (req, res) => {
   Book.findById(req.params.id, (err, foundBook) => {
-    // if(err){
-    //   res.redirect('/books');
-    // } else {
+    if(err){
+      res.redirect('/books');
+    } else {
       res.render('books/edit', {book: foundBook});
-    //}
+    }
   });
 });
 
@@ -83,6 +83,18 @@ router.put('/:id', (req, res) => {
     }
   });
 });
+
+//DESTROY
+router.delete('/:id', (req, res) => {
+  Book.findByIdAndRemove(req.params.id, (err) => {
+    if (err){
+      console.log(err);
+    } else {
+      res.redirect('/books');
+    }
+  });
+});
+
 //==================
 //Middleware
 //==================
