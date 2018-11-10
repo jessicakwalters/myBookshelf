@@ -21,13 +21,17 @@ router.get('/', (req, res) => {
 });
 
 //CREATE
-router.post('/', (req, res) => {
+router.post('/', isLoggedIn, (req, res) => {
   //get data from form
   let title = req.body.title;
-  let author = req.body.author;
+  let book_author = req.body.author;
   let image = req.body.image;
   let description = req.body.description;
-  let newBook = {title: title, author: author, image: image, description: description};
+  let author = {
+    id: req.user._id,
+    username: req.user.username
+  };
+  let newBook = {title: title, book_author: book_author, image: image, description: description, author: author};
   //create a new campground and save to db
   // eslint-disable-next-line no-unused-vars
   Book.create(newBook, (err, newlyCreated) => {
@@ -36,6 +40,7 @@ router.post('/', (req, res) => {
       console.log(newBook);
     } else {
       //redirect to books page;
+      console.log(newlyCreated);
       res.redirect('/books');
     }
   });

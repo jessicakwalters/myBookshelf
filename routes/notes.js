@@ -33,6 +33,10 @@ router.post('/', isLoggedIn, (req, res) => {
         if(err){
           console.log(err);
         } else {
+          //add username and id to comment
+          note.author.id = req.user._id;
+          note.author.username = req.user.username;
+          note.save();
           book.notes.push(note);
           book.save();
           res.redirect('/books/' + book._id);
