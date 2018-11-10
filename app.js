@@ -3,18 +3,35 @@ const request = require('request');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Book = require('./models/book');
+const passport = require('passport');
+
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
+
 // eslint-disable-next-line no-unused-vars
 const Note = require('./models/note');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-mongoose.connect("mongodb://localhost/my_bookshelf");
+mongoose.connect('mongodb://localhost/my_bookshelf', { useNewUrlParser: true });
 
 app.listen(PORT,() => console.log('Server listening on port 3000'));
 
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
+
+//passport config
+app.use(require('express-session')({
+  secret: 'My Bookshelf is Empty',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 //ROUTES
 app.get('/', (req, res) => {
@@ -56,13 +73,13 @@ app.post('/books', (req, res) => {
     }
   });
 });
-  
+
 //SHOW
 app.get('/books/:id', (req, res) => {
   //find book with  id
   //WHY IS THIS FUCKING BROKEN?! maybe try findOne?
   Book.findById(req.params.id).populate('notes').exec((err, foundBook) => {
-   //ERRORS COMING BACK --> book undefined...hmmmm had to remove err handling
+    //ERRORS COMING BACK --> book undefined...hmmmm had to remove err handling
     //display book info
     res.render('books/show', {book: foundBook});
   });
@@ -122,4 +139,44 @@ app.post('/books/:id/notes', (req, res) => {
       res.redirect('/books/' + book._id);
     });
   });
+});
+
+//===================
+//Auth Routes
+//===================
+
+//Show form
+app.get('/register', (req, res) => {
+  res.render('register');
+});
+
+//handle sign up
+app.post('/register', (req, res) => {
+  let newUser = new User({username: req.body.username});
+  User.register(newUser, req.body.password, (err, user) => {
+    if(err){
+      console.log(err);
+      return res.render('register');
+    }
+    passport.authenticate('local')(req, res, () => {
+      res.redirect('./books');
+    });
+  });
+});
+
+//===================
+//Login Routes
+//===================
+
+//show login
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+//login logic
+app.post('/login', passport.authenticate('local',
+  {
+    successRedirect: '/books',
+    failureRedirect: '/login'
+  }), (req, res) => {
 });
