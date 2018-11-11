@@ -47,7 +47,7 @@ router.post('/', isLoggedIn, (req, res) => {
 });
 
 //EDIT
-router.get('/:note_id/edit', (req, res) =>{
+router.get('/:note_id/edit', checkNoteOwner, (req, res) =>{
   Note.findById(req.params.note_id, (err, foundNote)=>{
     if(err){
       res.redirect('back');
@@ -58,7 +58,7 @@ router.get('/:note_id/edit', (req, res) =>{
 });
 
 //UPDATE
-router.put('/:note_id', (req, res) =>{
+router.put('/:note_id', checkNoteOwner, (req, res) =>{
   Note.findByIdAndUpdate(req.params.note_id, req.body.note, (err, updatedNote)=> {
     if(err){
       res.redirect('back');
@@ -69,7 +69,7 @@ router.put('/:note_id', (req, res) =>{
 });
 
 //DESTROY
-router.delete('/:note_id', (req, res) =>{
+router.delete('/:note_id', checkNoteOwner, (req, res) =>{
   Note.findByIdAndRemove(req.params.note_id, (err)=>{
     if(err){
       res.redirect('back');
@@ -91,3 +91,21 @@ function isLoggedIn(req, res, next) {
   }
 
 module.exports = router;
+
+function checkNoteOwner(req, res, next){
+  if(req.isAuthenticated()){
+    Note.findById(req.params.note_id, (err, foundNote) => {
+      if(err){
+        res.redirect('back');
+      } else {
+        if(foundNote.author.id.equals(req.user._id)){
+          next();
+        } else {
+          res.redirect('back');
+        }
+      }
+    });
+  } else {
+    res.redirect('back');
+  }
+}

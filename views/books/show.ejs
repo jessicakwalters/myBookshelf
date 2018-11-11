@@ -43,10 +43,12 @@
             <p class="caption"> 
                 <%= note.text %> 
             </p>
+            <% if(currentUser && note.author.id.equals(currentUser._id)) { %>
             <a class="btn btn-secondary" href='/books/<%= book._id %>/notes/<%=note._id%>/edit'>Edit Note</a>
             <form class="delete-form" action='/books/<%= book._id %>/notes/<%=note._id%>?_method=DELETE' method='POST'>
                 <button class="btn btn-danger">Delete Note</button>
             </form>
+            <% } %>
         </div>
     </div>
 <% }) %>
