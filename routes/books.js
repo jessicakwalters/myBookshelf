@@ -8,14 +8,13 @@ const User = require('../models/user');
 //Book Routes
 //===================
 
-//INDEX
+//INDEX - all books
 router.get('/', (req, res) => {
-
   Book.find({}, (err, allBooks) => {
     if(err){
       console.log(err);
     } else {
-      res.render('books/index', {books:allBooks, currentUser: req.user});
+      res.render('books/index', {books:allBooks});
     }
   });
 });
@@ -54,7 +53,7 @@ router.get('/:id', (req, res) => {
     //ERRORS COMING BACK --> book undefined...hmmmm had to remove err handling
     //display book info
     if(err){
-      console.log('error');
+      console.log(err);
     } else {
       console.log(foundBook);
       res.render('books/show', {book: foundBook});
@@ -63,18 +62,15 @@ router.get('/:id', (req, res) => {
 });
 
 //EDIT
-router.get('/:id/edit', (req, res) => {
+router.get('/:id/edit', checkBookOwner, (req, res) => {
+  //permissions
   Book.findById(req.params.id, (err, foundBook) => {
-    if(err){
-      res.redirect('/books');
-    } else {
-      res.render('books/edit', {book: foundBook});
-    }
+    res.render('books/edit', {book: foundBook});
   });
 });
 
 //UPDATE
-router.put('/:id', (req, res) => {
+router.put('/:id', checkBookOwner, (req, res) => {
   Book.findByIdAndUpdate(req.params.id, req.body.book, (err, updatedBook) => {
     if(err){
       console.log(err);
@@ -85,7 +81,7 @@ router.put('/:id', (req, res) => {
 });
 
 //DESTROY
-router.delete('/:id', (req, res) => {
+router.delete('/:id', checkBookOwner, (req, res) => {
   Book.findByIdAndRemove(req.params.id, (err) => {
     if (err){
       console.log(err);
@@ -104,6 +100,24 @@ function isLoggedIn(req, res, next) {
     return next();
   }
   res.redirect('/login');
+}
+
+function checkBookOwner(req, res, next){
+  if(req.isAuthenticated()){
+    Book.findById(req.params.id, (err, foundBook) => {
+      if(err){
+        res.redirect('back');
+      } else {
+        if(foundBook.author.id.equals(req.user._id)){
+          next();
+        } else {
+          res.redirect('back');
+        }
+      }
+    });
+  } else {
+    res.redirect('back');
+  }
 }
 
 module.exports = router;

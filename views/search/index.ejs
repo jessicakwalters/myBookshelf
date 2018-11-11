@@ -5,8 +5,6 @@
     <% include ../partials/searchBlock %>
      
     <div class="row" style= "display: flex; flex-wrap: wrap;">
-
-    
         <% if (data["items"]){ %>
             <% data["items"].forEach((book) => { %>
                 <div class="col-md-3 col-sm-6">
@@ -19,9 +17,9 @@
                             </h4>
                         </div>
                         <h6>
-                                <% if (book['volumeInfo']['authors']){ %>
-                                    <%= book['volumeInfo']['authors'][0] %>
-                                <% } %>
+                            <% if (book['volumeInfo']['authors']){ %>
+                                <%= book['volumeInfo']['authors'][0] %>
+                            <% } %>
                         </h6>
                         <% if (book['volumeInfo']['imageLinks']){ %>
                             <div class="text-center">
@@ -29,9 +27,9 @@
                             </div>
                         <% } %>
                         <div>
-                                <p>
-                                    <a href="/search_results/<%= book['id'] %>" class="btn btn-link btn-block my-2 my-sm-0">Details</a>
-                                </p>
+                            <p>
+                                <a href="/search_results/<%= book['id'] %>" class="btn btn-link btn-block my-2 my-sm-0">Details</a>
+                            </p>
                         </div>
                     </div>
                 </div>

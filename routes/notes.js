@@ -46,6 +46,39 @@ router.post('/', isLoggedIn, (req, res) => {
   });
 });
 
+//EDIT
+router.get('/:note_id/edit', (req, res) =>{
+  Note.findById(req.params.note_id, (err, foundNote)=>{
+    if(err){
+      res.redirect('back');
+    } else {
+      res.render('notes/edit', {book_id: req.params.id, note: foundNote});
+    }
+  });
+});
+
+//UPDATE
+router.put('/:note_id', (req, res) =>{
+  Note.findByIdAndUpdate(req.params.note_id, req.body.note, (err, updatedNote)=> {
+    if(err){
+      res.redirect('back');
+    } else {
+      res.redirect('/books/' + req.params.id);
+    }
+  });
+});
+
+//DESTROY
+router.delete('/:note_id', (req, res) =>{
+  Note.findByIdAndRemove(req.params.note_id, (err)=>{
+    if(err){
+      res.redirect('back');
+    } else {
+      res.redirect('/books/' + req.params.id);
+    }
+  });
+});
+
 //==================
 //Middleware
 //==================

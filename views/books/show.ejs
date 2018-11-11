@@ -12,26 +12,28 @@
                     <h6>
                         <%= book.book_author %>
                     </h6>
-                        <div class="text-center">
-                            <img src="<%= book.image %>" alt="cover image">
-                        </div>
-                        <p>
-                            <%= book.description %>
-                        </p>
-                        <p>
-                            Submitted By: <%= book.author.username %>
-                        </p>
+                    <div class="text-center">
+                        <img src="<%= book.image %>" alt="cover image">
+                    </div>
+                    <p>
+                        <%= book.description %>
+                    </p>
+                    <p>
+                        Submitted By: <%= book.author.username %>
+                    </p>
+                    <% if(currentUser && book.author.id.equals(currentUser._id)) { %>
                         <a class="btn btn-secondary" href='/books/<%= book._id %>/edit'>Edit Book</a>
-                        <form id="delete-form" action='/books/<%= book._id %>?_method=DELETE' method='POST'>
+                        <form class="delete-form" action='/books/<%= book._id %>?_method=DELETE' method='POST'>
                             <button class="btn btn-danger">Delete Book</button>
                         </form>
+                    <% } %>
                 </div>
             </div>
      </div>
 </div>
 <div class="text-right">
-        <a class="btn btn-success" href="/books/<%= book._id %>/notes/new">Add A Note</a>
-    </div>
+    <a class="btn btn-success" href="/books/<%= book._id %>/notes/new">Add A Note</a>
+</div>
 <hr>
 <% book.notes.forEach((note) => { %>
     <div class="row">
@@ -41,10 +43,12 @@
             <p class="caption"> 
                 <%= note.text %> 
             </p>
+            <a class="btn btn-secondary" href='/books/<%= book._id %>/notes/<%=note._id%>/edit'>Edit Note</a>
+            <form class="delete-form" action='/books/<%= book._id %>/notes/<%=note._id%>?_method=DELETE' method='POST'>
+                <button class="btn btn-danger">Delete Note</button>
+            </form>
         </div>
     </div>
-    
-
 <% }) %>
 <% include ../partials/footer %>
 

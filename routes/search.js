@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
   console.log(url);
   request(url, (error, response, body) => {
     // eslint-disable-next-line eqeqeq
-    if(!error && response.statusCode == 200) {
+    if(!error && response.statusCode === 200) {
       let data = JSON.parse(body);
       res.render('search/index', {data: data});
     }
@@ -25,10 +25,10 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   let url = 'https://www.googleapis.com/books/v1/volumes/' + req.params.id;
   console.log(url);
-  request(url, (error, response, body) => {
-    // eslint-disable-next-line eqeqeq
-    //ERRORS COMING BACK --> book undefined...hmmmm had to remove err handling same as books show
-    if(!error) {
+  request(url, (err, response, body) => {
+    if(err) {
+      console.log(err);
+    } else if(!err && response.statusCode === 200) {
       console.log(response.statusCode);
       let book = JSON.parse(body);
       res.render('search/show', {book: book});
