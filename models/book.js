@@ -5,13 +5,15 @@ const bookSchema = new mongoose.Schema({
   book_author: String,
   image: String,
   description: String,
-  author: {
+  author: [
+    {
     id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
     },
-    username: String,
-  },
+      username: String,
+    },
+  ],
   notes: [
     {
       type: mongoose.Schema.Types.ObjectId,

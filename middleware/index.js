@@ -8,7 +8,7 @@ middlewareObj.checkBookOwner = (req, res, next) => {
       if(err){
         res.redirect('back');
       } else {
-        if(foundBook.author.id.equals(req.user._id)){
+        if(foundBook.author[0].id.equals(req.user._id)){
           next();
         } else {
           res.redirect('back');

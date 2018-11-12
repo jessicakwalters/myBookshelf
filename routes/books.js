@@ -21,6 +21,17 @@ router.get('/', (req, res) => {
   });
 });
 
+//MY BOOKS
+router.get('/mybooks', (req, res) => {
+  Book.find({}, (err, allBooks) => {
+    if(err){
+      console.log(err);
+    } else {
+      res.render('books/mybooks', {books:allBooks});
+    }
+  });
+});
+
 //CREATE
 router.post('/', middleware.isLoggedIn, (req, res) => {
   //get data from form
@@ -42,10 +53,12 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
     } else {
       //redirect to books page;
       console.log(newlyCreated);
-      res.redirect('/books');
+      res.redirect('/books/mybooks');
     }
   });
 });
+
+
 
 //SHOW
 router.get('/:id', (req, res) => {
@@ -62,6 +75,30 @@ router.get('/:id', (req, res) => {
     }
   });
 });
+
+
+
+//FIX THIS
+//CREATE FROM LIBRARY, NOT API
+router.put('/mybooks/:id', middleware.isLoggedIn, (req, res) => {
+  //lookup book
+  let author = {
+    id: req.user._id,
+    username: req.user.username
+  };
+  console.log(author);
+  console.log(req.params.id);
+  Book.findById(req.params.id, (err, book) => {
+    if(err){
+      console.log(err);
+    } else {  
+      console.log(book);
+        book.author.push(author);
+        book.save();
+        res.redirect('/books/mybooks');
+      }
+    });
+  });
 
 //EDIT
 router.get('/:id/edit', middleware.checkBookOwner, (req, res) => {
