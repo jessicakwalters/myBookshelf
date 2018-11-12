@@ -12,7 +12,7 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">My BookShelf</a>
+                <a class="navbar-brand" href="/books">Community BookShelf</a>
             </div>
             <% include ../partials/searchBlock %>
             <div class="collapse navbar-collapse justify-content-end">
@@ -24,14 +24,20 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/register">SignUp</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/books">Library</a>
+                        </li>
                     <% } else { %>
+                        <li class="nav item nav-link">
+                                Welcome <%= currentUser.username %>                        
+                        </li>
+                        <li class="nav item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/books/mybooks">My Bookshelf</a>
+                        </li>
                     
-                    <li class="nav item">
-                        <a class="nav-link" href="/logout">Logout</a>
-                    </li>
-                    <li class="nav item nav-link">
-                        Welcome <%= currentUser.username %>                        
-                    </li>
                     <% } %>
                 </ul>
             </div>
