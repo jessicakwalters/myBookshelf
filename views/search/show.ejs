@@ -1,53 +1,48 @@
 <% include ../partials/header %>
-
-<div class = "container">
-    <div class="row" style= "display: flex; flex-wrap: wrap;">
-    
-            <div class="">
-                <div class="img">
-                    <div class="caption">
-                        <h4>
-                            <% let title = book['volumeInfo']['title'];
-                            
-                            if (title){ %>
-                                <%= title %>
-                            <% } %>
-                        </h4>
-                    </div>
-                    <h6>
-                        <% let author = book['volumeInfo']['authors'];
-                        if (author){ %>
-                            <%= author %>
-                        <% } %>
-                    </h6>
-                    <% let image = book['volumeInfo']['imageLinks']['thumbnail']; 
-                    if (image){ %>
-                        <div class="text-center">
-                            <img src="<%= image %>" alt="cover image">
-                        </div>
-                    <% } %>
-                    <div>
-                        <p>
-                            <% let description =  book['volumeInfo']['description'];
-                            if (description){ %>
-                                <%= description %>
-                            <% } %>
-                        </p>
-                    </div>
-                </div>
-                <div>
-                    <form class="my-2 my-lg-0" action="/books" method="POST">
-                        <input class="form-control mr-sm-2" type="text" value="<%= book['id'] %>" name="volumeId" style="display: none;">
-                        <input class="form-control mr-sm-2" type="text" value="<%= title %>" name="title" style="display: none;">
-                        <input class="form-control mr-sm-2" type="text" value="<%= author %>" name="author" style="display: none;">
-                        <input class="form-control mr-sm-2" type="text" value="<%= image %>" name="image" style="display: none;">
-                        <input class="form-control mr-sm-2" type="text" value="<%= description %>" name="description" style="display: none;">
-                        <input class="btn btn-primary btn-large my-2 my-sm-0" type="submit" value="Add To Bookshelf">
-                    </form>    
-                    </div>
+<div class="container single-book">
+    <div class="card border-dark">
+            <% let image = book['volumeInfo']['imageLinks']['thumbnail']; 
+            if (image){ %>
+                <img class="image-container" src="<%= image %>" alt="cover image" >
+            <% } %>
+        <div class="card-body">
+            <h5 class="card-title">
+                <% let title = book['volumeInfo']['title'];
+                if (title){ %>
+                    <%= title %>
+                <% } %>
+            </h5>
+            <h6 class="card-subtitle mb-2 text-muted">
+                <% let author = book['volumeInfo']['authors'][0];
+                if (author){ %>
+                    <%= author %>
+                <% } %>
+            </h6>
+            <p class="card-subtitle mb-2 text-muted">
+                <% let date = book['volumeInfo']['publishedDate'];
+                if (date){ %>
+                    <%= date %>
+                <% } %>
+            </p>
+            <p class="card-text">
+                <% let description =  book['volumeInfo']['description'];
+                if (description){ %>
+                    <%= description %>
+                <% } %>
+            </p>
+            <div>
+                <form class="my-2 my-lg-0" action="/books" method="POST">
+                    <input class="form-control mr-sm-2" type="text" value="<%= book['id'] %>" name="volumeId" style="display: none;">
+                    <input class="form-control mr-sm-2" type="text" value="<%= title %>" name="title" style="display: none;">
+                    <input class="form-control mr-sm-2" type="text" value="<%= author %>" name="author" style="display: none;">
+                    <input class="form-control mr-sm-2" type="text" value="<%= image %>" name="image" style="display: none;">
+                    <input class="form-control mr-sm-2" type="text" value="<%= description %>" name="description" style="display: none;">
+                    <input class="btn btn-dark btn-large my-2 my-sm-0" type="submit" value="Add To Bookshelf">
+                </form>    
             </div>
-    
-     </div>
+        </div>
+    </div>
+
 </div>
 <% include ../partials/footer %>
 

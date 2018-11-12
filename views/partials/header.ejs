@@ -12,10 +12,11 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/books">My BookShelf</a>
+                <a class="navbar-brand" href="/">My BookShelf</a>
             </div>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav mr-auto">
+            <% include ../partials/searchBlock %>
+            <div class="collapse navbar-collapse justify-content-end">
+                <ul class="navbar-nav">
                     <% if(!currentUser){ %>
                         <li class="nav-item">
                             <a class="nav-link" href="/login">Login</a>

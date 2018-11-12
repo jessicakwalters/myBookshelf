@@ -1,42 +1,45 @@
 <% include ../partials/header %>
 
 <div class = "container">
-    
-    <% include ../partials/searchBlock %>
-     
-    <div class="row" style= "display: flex; flex-wrap: wrap;">
-        <% if (data["items"]){ %>
-            <% data["items"].forEach((book) => { %>
-                <div class="col-md-3 col-sm-6">
-                    <div class="img-thumbnail">
-                        <div class="caption">
-                            <h4>
-                                <% if (book['volumeInfo']['title']){ %>
-                                    <%= book['volumeInfo']['title'] %>
-                                <% } %>
-                            </h4>
-                        </div>
-                        <h6>
-                            <% if (book['volumeInfo']['authors']){ %>
-                                <%= book['volumeInfo']['authors'][0] %>
-                            <% } %>
-                        </h6>
-                        <% if (book['volumeInfo']['imageLinks']){ %>
-                            <div class="text-center">
-                                <img src="<%= book['volumeInfo']['imageLinks']['thumbnail'] %>" alt="cover image">
-                            </div>
-                        <% } %>
-                        <div>
-                            <p>
-                                <a href="/search_results/<%= book['id'] %>" class="btn btn-link btn-block my-2 my-sm-0">Details</a>
-                            </p>
-                        </div>
+    <div class="card-columns">
+        <% if (data["items"]){ 
+            data["items"].forEach((book) => { %>
+            <div class="card">
+                    <% let id = book['id'];
+                    let image = "/images/blankbook.jpg";
+                    if (book['volumeInfo']['imageLinks']['thumbnail']){
+                        image = book['volumeInfo']['imageLinks']['thumbnail']; 
+                    } %>
+                    <div class="image-container">
+                        <img  src="<%= image %>" alt="cover image" >
                     </div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <% let title = book['volumeInfo']['title'];
+                        if (title){ %>
+                            <%= title %>
+                        <% } %>
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        <% let author = book['volumeInfo']['authors'];
+                        if (author){ %>
+                            <%= author %>
+                        <% } %>
+                    </h6>
+                    <p class="card-text card-text-short">
+                        <% let description =  book['volumeInfo']['description'];
+                        if (description){ %>
+                            <%= description %>
+                        <% } %>
+                    </p>
+                    <p>
+                        <a href="search_results/<%= id %>" class="btn btn-link">More Info</a>
+                    </p>
                 </div>
-            <% }) %>
-        <% } else { %>
-                <h2>We didn't find any books that match your search.  Please try again.</h2>
-            <% } %> 
-     </div>
+            </div>
+            <% });
+        } %> 
+    </div>
 </div>
+
 <% include ../partials/footer %>

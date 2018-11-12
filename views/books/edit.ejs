@@ -1,33 +1,30 @@
 <% include ../partials/header %>
-<h1 style="text-align: center;"> Edit <%= book.title %></h1>
-<div class="container">
-    <div class="row">
-        
-        <div style="width: 30%; margin: 25px auto;">
+<div class="container w-50 page-top-quarter">
+        <h1 class="text-center "> Edit <%= book.title %></h1>
+        <div class="container">
             <form action="/books/<%= book._id %>?_method=PUT" method="POST">
                 <div class="form-group">
-                    <input class="form-control" type="text" name="book[title]" value="<%= book.title %>">
+                    <label for="title">Title</label>
+                    <input id="title" class="form-control" type="text" name="book[title]" value="<%= book.title %>">
                 </div>    
                 <div class="form-group">
-                    <input class="form-control" type="text" name="book[book_author]" value="<%= book.book_author %>">
+                    <label for="author">Author</label>
+                    <input class="form-control" id="author" type="text" name="book[book_author]" value="<%= book.book_author %>">
                 </div> 
                 <div class="form-group">
-                    <input class="form-control" type="text" name="book[image]" value="<%= book.image %>">
+                    <label for="image">Title</label>
+                    <input class="form-control" id="image" type="text" name="book[image]" value="<%= book.image %>">
                 </div> 
                 <div class="form-group">
-                    <input class="form-control" type="text" name="book[description]" value="<%= book.description %>">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" type="text" name="book[description]" rows="8"><%= book.description %></textarea>
                 </div> 
                 <div class="form-group">
-                    <button class="btn btn-lg btn-default btn-block btn-primary">Submit!</button>
+                    <button class="btn btn-lg btn-default btn-block btn-dark">Save Changes</button>
                 </div>
-                
-
             </form>
             <a href="/books">Back to Books</a>
         </div>
-    </div>
-    
-    
-    
+                
 </div>
 <% include ../partials/footer %>
