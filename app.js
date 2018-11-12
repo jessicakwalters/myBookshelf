@@ -1,29 +1,26 @@
 const express = require('express');
-const request = require('request');
+const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const Book = require('./models/book');
 const passport = require('passport');
-
 const LocalStrategy = require('passport-local');
 const methodOverride = require('method-override');
-const User = require('./models/user');
-
+const Book = require('./models/book');
 const Note = require('./models/note');
-const app = express();
+const User = require('./models/user');
 const PORT = process.env.PORT || 3000;
 
+//require routes
 const noteRoutes = require('./routes/notes');
 const bookRoutes = require('./routes/books');
 const searchRoutes = require('./routes/search');
 const indexRoutes = require('./routes/index');
 
 mongoose.connect('mongodb://localhost/my_bookshelf', { useNewUrlParser: true });
-
 app.use(bodyParser.urlencoded({extended: true}));
+app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(methodOverride('_method'));
-app.set('view engine', 'ejs');
 
 //passport config
 app.use(require('express-session')({
@@ -44,9 +41,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(indexRoutes);
+app.use('/', indexRoutes);
 app.use('/books', bookRoutes);
 app.use('/search_results', searchRoutes);
 app.use('/books/:id/notes', noteRoutes);
 
-app.listen(PORT,() => console.log('Server listening on port 3000'));
+app.listen(PORT,() => {
+  console.log('Server listening on port 3000');
+});

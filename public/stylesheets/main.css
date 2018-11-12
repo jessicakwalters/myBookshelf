@@ -1,3 +1,48 @@
-#delete-form {
+@import url('https://fonts.googleapis.com/css?family=Josefin+Slab');
+
+.delete-form {
     display: inline;
 }
+
+#landing-page {
+    background: url("../images/whitebooks.jpg") no-repeat center center fixed;
+    background-size: cover; 
+}
+
+
+.styled-text {
+    font-family: 'Josefin Slab', serif;
+}
+
+.page-center {
+    margin-top: 30%;
+}
+.page-top-third {
+    margin-top: 15%;
+}
+
+.page-top-quarter {
+    margin-top: 8%;
+}
+
+.card{
+    display: inline-block;
+    
+}
+
+.card-text-short {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.image-container {
+    padding: 1em;
+}
+
+.single-book {
+    width: 50%;
+    margin-top: 5%;
+}
+

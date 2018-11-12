@@ -1,27 +1,28 @@
 const express = require('express');
 const router = express.Router();
-var Book = require('../models/book');
+const Book = require('../models/book');
 const User = require('../models/user');
+const middleware = require('../middleware');
+
 
 
 //===================
 //Book Routes
 //===================
 
-//INDEX
+//INDEX - all books
 router.get('/', (req, res) => {
-
   Book.find({}, (err, allBooks) => {
     if(err){
       console.log(err);
     } else {
-      res.render('books/index', {books:allBooks, currentUser: req.user});
+      res.render('books/index', {books:allBooks});
     }
   });
 });
 
 //CREATE
-router.post('/', isLoggedIn, (req, res) => {
+router.post('/', middleware.isLoggedIn, (req, res) => {
   //get data from form
   let title = req.body.title;
   let book_author = req.body.author;
@@ -54,7 +55,7 @@ router.get('/:id', (req, res) => {
     //ERRORS COMING BACK --> book undefined...hmmmm had to remove err handling
     //display book info
     if(err){
-      console.log('error');
+      console.log(err);
     } else {
       console.log(foundBook);
       res.render('books/show', {book: foundBook});
@@ -63,18 +64,15 @@ router.get('/:id', (req, res) => {
 });
 
 //EDIT
-router.get('/:id/edit', (req, res) => {
+router.get('/:id/edit', middleware.checkBookOwner, (req, res) => {
+  //permissions
   Book.findById(req.params.id, (err, foundBook) => {
-    if(err){
-      res.redirect('/books');
-    } else {
-      res.render('books/edit', {book: foundBook});
-    }
+    res.render('books/edit', {book: foundBook});
   });
 });
 
 //UPDATE
-router.put('/:id', (req, res) => {
+router.put('/:id', middleware.checkBookOwner, (req, res) => {
   Book.findByIdAndUpdate(req.params.id, req.body.book, (err, updatedBook) => {
     if(err){
       console.log(err);
@@ -85,7 +83,7 @@ router.put('/:id', (req, res) => {
 });
 
 //DESTROY
-router.delete('/:id', (req, res) => {
+router.delete('/:id', middleware.checkBookOwner, (req, res) => {
   Book.findByIdAndRemove(req.params.id, (err) => {
     if (err){
       console.log(err);
@@ -95,15 +93,6 @@ router.delete('/:id', (req, res) => {
   });
 });
 
-//==================
-//Middleware
-//==================
 
-function isLoggedIn(req, res, next) {
-  if(req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/login');
-}
 
 module.exports = router;

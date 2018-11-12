@@ -1,14 +1,14 @@
 <% include ../partials/header %>
-<div class="container">
-    <div class="row">
-        <h1 style="text-align: center;">Add a Note to <%= book.title %></h1>
-        <div style="width: 30%; margin: 25px auto;">
+<div class="container text-center w-50 page-top-third">
+        <h1>Add a Note to <%= book.title %></h1>
+
+        <div class="container">
             <form action="/books/<%= book._id %>/notes" method="POST">
                 <div class="form-group">
-                    <input class="form-control" type="text" name="note[text]" placeholder="text">
+                    <textarea class="form-control" type="text" name="note[text]" placeholder="what do you think?" rows="8"></textarea>
                 </div>    
                 <div class="form-group">
-                    <button class="btn btn-lg btn-default btn-block btn-primary">Submit!</button>
+                    <button class="btn btn-lg btn-default btn-block btn-dark">Add a Note</button>
                 </div>
 
             </form>

@@ -1,27 +1,30 @@
 <% include ../partials/header %>
 
 <div class = "container">
-    <div class="row" style= "display: flex; flex-wrap: wrap;">
-            <% books.forEach((book) => { %>
-                <div class="col-md-3 col-sm-6">
-                    <div class="img-thumbnail">
-                        <div class="caption">
-                            <h4>
-                                <%= book.title; %>
-                            </h4>
-                        </div>
-                        <h6>
-                                <%= book.book_author; %>
-                        </h6>
-                            <div class="text-center">
-                                <img src="<%= book.image %>" alt="cover image">
-                            </div>
-                            <p>
-                                <a href="/books/<%= book._id %>" class="btn btn-primary">See My Book</a>
-                            </p>
-                    </div>
+    <div class="card-columns">
+        <% books.forEach((book) => { %>
+            <div class="card">
+                <div class="image-container">
+                    <img src="<%= book.image %>" alt="cover image">
                 </div>
-            <% }) %>
-     </div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                            <%= book.title; %>
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                            <%= book.book_author; %>
+                    </h6>
+                    <p class="card-text card-text-short">
+                            <%= book.description; %>
+                    </p>
+                    <p>
+                        <a href="/books/<%= book._id %>" class="btn btn-dark">See My Book</a>
+                    </p>
+                </div>
+            </div>
+            <% }); %>
+    </div>
 </div>
+
 <% include ../partials/footer %>
+
