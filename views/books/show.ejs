@@ -1,8 +1,12 @@
 <% include ../partials/header %>
-<div class="container">
-    <div class="card border-0">
-            <img class="image-container" src="<%= book.image %>" alt="cover image">
-        <div class="card-body">
+<div class="container text-center styled-text search-results">
+        <h1>Details for: <%=book.title %></h1>
+        <% include ../partials/searchBlock %>
+</div>
+<div class="container py-4 px-4 bg-light">
+    <ul class="media">
+            <img class="image-container align-self-start" src="<%= book.image %>" alt="cover image">
+        <div class="media-body">
             <h5 class="card-title">
                     <%= book.title %>
             </h5>
@@ -23,8 +27,8 @@
                         <button class="badge badge-pill badge-light">Delete Book</button>
                     </form>
                 <% } %>
-            </div>
         </div>
+    </ul>
         <div>
         <%  let showBook = true;
             book.author.forEach((author) => {
@@ -37,9 +41,7 @@
                     <input class="btn btn-dark btn-large my-2 my-sm-0" type="submit" value="Add To My Bookshelf">
                 </form>  
             <% } %>
-    </div>
- </div>
- 
+        </div> 
 </div>
     
 <hr>

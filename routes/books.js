@@ -22,12 +22,12 @@ router.get('/', (req, res) => {
 });
 
 //MY BOOKS
-router.get('/mybooks', (req, res) => {
+router.get('/mybooks', middleware.isLoggedIn,(req, res) => {
   Book.find({}, (err, allBooks) => {
     if(err){
       console.log(err);
     } else {
-      res.render('books/mybooks', {books:allBooks});
+      res.render('books/mybooks', {books:allBooks, user: req.user.username});
     }
   });
 });

@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
     // eslint-disable-next-line eqeqeq
     if(!error && response.statusCode === 200) {
       let data = JSON.parse(body);
-      res.render('search/index', {data: data});
+      res.render('search/index', {data: data, term: query});
     }
   });
 });

@@ -9,12 +9,11 @@
     <link rel="stylesheet" href="/stylesheets/main.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top styled-text">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/books">Community BookShelf</a>
+                <a class="navbar-brand" href="/books"><img src="/images/bookshelf-logo.svg" width="30" height="30">  My Bookshelf</a>
             </div>
-            <% include ../partials/searchBlock %>
             <div class="collapse navbar-collapse justify-content-end">
                 <ul class="navbar-nav">
                     <% if(!currentUser){ %>
