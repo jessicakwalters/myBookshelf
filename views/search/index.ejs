@@ -5,16 +5,15 @@
     </div>
 <div class = "container px-0">
     <ul class="list-unstyled">
-        <% if (data["items"]){ 
-            data["items"].forEach((book) => { %>
+        <%  data['items'].forEach((book) => { %>
                 <li class="media bg-light mt-2 py-4 px-4">
                     <% let id = book['id'];
-                    let image = "/images/blankbook.jpg";
-                    if (book['volumeInfo']['imageLinks']['thumbnail']){
+                    let image = "/images/default-book-cover.jpg";
+                    if (book['volumeInfo']['imageLinks']){
                         image = book['volumeInfo']['imageLinks']['thumbnail']; 
                     } %>
                     <div class="image-container">
-                        <img  src="<%= image %>" alt="cover image" >
+                        <img  src="<%= image %>" alt="cover image" width="128px">
                     </div>
                 <div class="media-body">
                     <h5 class="card-title">
@@ -40,8 +39,8 @@
                     </p>
                 </div>
             </li>
-            <% });
-        } %> 
+            <% }); %>
+        
     </ul>
 </div>
 

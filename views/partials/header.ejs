@@ -12,7 +12,7 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top styled-text">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/books"><img src="/images/bookshelf-logo.svg" width="30" height="30">  My Bookshelf</a>
+                <a class="navbar-brand" href="/"><img src="/images/bookshelf-logo.svg" width="30" height="30">  My Bookshelf</a>
             </div>
             <div class="collapse navbar-collapse justify-content-end">
                 <ul class="navbar-nav">
@@ -28,14 +28,18 @@
                         </li>
                     <% } else { %>
                         <li class="nav item nav-link">
-                                Welcome <%= currentUser.username %>                        
+                                Welcome, <%= currentUser.username %>!                        
+                        </li>
+                        <li class="nav-item">
+                                <a class="nav-link" href="/books/mybooks">My Bookshelf</a>
+                        </li>
+                        <li class="nav-item">
+                                <a class="nav-link" href="/books/">Library</a>
                         </li>
                         <li class="nav item">
                             <a class="nav-link" href="/logout">Logout</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/books/mybooks">My Bookshelf</a>
-                        </li>
+                        
                     
                     <% } %>
                 </ul>

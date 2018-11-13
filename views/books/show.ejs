@@ -20,28 +20,30 @@
                 <% book.author.forEach((author) => { %>
                 <% if(currentUser && author.id.equals(currentUser._id)) { %>
                     <a class="badge badge-pill badge-dark" href='/books/<%= book._id %>/edit'>Edit Book</a>
+                    <form class="delete-form" action='/books/<%= book._id %>/remove?_method=PUT' method='POST'>
+                        <button class="badge badge-pill badge-light">Remove From My BookShelf</button>
+                    </form>
                     <% } %>
                 <% }); %>
                 <% if(currentUser && book.author[0].id.equals(currentUser._id)) { %>
-                    <form class="delete-form" action='/books/<%= book._id %>?_method=DELETE' method='POST'>
-                        <button class="badge badge-pill badge-light">Delete Book</button>
-                    </form>
+                    
                 <% } %>
         </div>
-    </ul>
         <div>
-        <%  let showBook = true;
-            book.author.forEach((author) => {
-            if(currentUser && (author.id.equals(currentUser._id))) { 
-                showBook = false;
-            }
-        }); 
-            if(showBook) { %>
-                <form class="my-2 my-lg-0" action="/books/mybooks/<%= book._id %>?_method=PUT" method="POST">
-                    <input class="btn btn-dark btn-large my-2 my-sm-0" type="submit" value="Add To My Bookshelf">
-                </form>  
-            <% } %>
-        </div> 
+                <%  let showBook = true;
+                    book.author.forEach((author) => {
+                    if(currentUser && (author.id.equals(currentUser._id))) { 
+                        showBook = false;
+                    }
+                }); 
+                    if(showBook) { %>
+                        <form action="/books/mybooks/<%= book._id %>?_method=PUT" method="POST">
+                            <input class="btn btn-dark btn-large" type="submit" value="Add To My Bookshelf">
+                        </form>  
+                    <% } %>
+                </div> 
+    </ul>
+        
 </div>
     
 <hr>

@@ -91,14 +91,14 @@ router.put('/mybooks/:id', middleware.isLoggedIn, (req, res) => {
   Book.findById(req.params.id, (err, book) => {
     if(err){
       console.log(err);
-    } else {  
+    } else {
       console.log(book);
-        book.author.push(author);
-        book.save();
-        res.redirect('/books/mybooks');
-      }
-    });
+      book.author.push(author);
+      book.save();
+      res.redirect('/books/mybooks');
+    }
   });
+});
 
 //EDIT
 router.get('/:id/edit', middleware.checkBookOwner, (req, res) => {
@@ -119,15 +119,16 @@ router.put('/:id', middleware.checkBookOwner, (req, res) => {
   });
 });
 
-//DESTROY
-router.delete('/:id', middleware.checkBookOwner, (req, res) => {
-  Book.findByIdAndRemove(req.params.id, (err) => {
-    if (err){
-      console.log(err);
-    } else {
-      res.redirect('/books');
-    }
-  });
+//UPDATE ROUTE TO REMOVE AUTHOR(ie one owner, not book author).
+router.put('/:id/remove', middleware.checkBookOwner, (req, res) => {
+  console.log(req.user._id);
+  Book.findOneAndUpdate(req.params.id,
+    { $pull: { 'author': {id: req.user._id } } }, (err)=>{
+      if(err){
+        console.log(err);
+      }
+    });
+  res.redirect('/books');
 });
 
 
