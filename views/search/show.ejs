@@ -5,7 +5,7 @@
 </div>
 <div class="container py-4 px-4 bg-light">
     <div class="media">
-        <div class= "container">
+        <div class= "mr-4">
                 <% let image = book['volumeInfo']['imageLinks']['thumbnail']; 
                 if (image){ %>
                     <img class="align-self-start" src="<%= image %>" alt="cover image" >
@@ -42,7 +42,7 @@
                 <input class="form-control mr-sm-2" type="text" value="<%= author %>" name="author" style="display: none;">
                 <input class="form-control mr-sm-2" type="text" value="<%= image %>" name="image" style="display: none;">
                 <input class="form-control mr-sm-2" type="text" value="<%= description %>" name="description" style="display: none;">
-                <input class="btn btn-dark btn-large ml-4" type="submit" value="Add To Bookshelf">
+                <input class="btn btn-dark btn-large" type="submit" value="Add To Bookshelf">
             </form>
         </div>
     </div>
