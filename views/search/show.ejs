@@ -1,11 +1,17 @@
 <% include ../partials/header %>
-<div class="container single-book">
-    <div class="card border-dark">
-            <% let image = book['volumeInfo']['imageLinks']['thumbnail']; 
-            if (image){ %>
-                <img class="image-container" src="<%= image %>" alt="cover image" >
-            <% } %>
-        <div class="card-body">
+<div class="container text-center styled-text search-results">
+        <h1 class="">Details for: <%= book['volumeInfo']['title'] %></h1>
+        <% include ../partials/searchBlock %>
+</div>
+<div class="container py-4 px-4 bg-light">
+    <div class="media">
+        <div class= "mr-4">
+                <% let image = book['volumeInfo']['imageLinks']['thumbnail']; 
+                if (image){ %>
+                    <img class="align-self-start" src="<%= image %>" alt="cover image" >
+                <% } %>
+        </div>
+        <div class="media-body">
             <h5 class="card-title">
                 <% let title = book['volumeInfo']['title'];
                 if (title){ %>
@@ -30,19 +36,16 @@
                     <%= description %>
                 <% } %>
             </p>
-            <div>
-                <form class="my-2 my-lg-0" action="/books" method="POST">
-                    <input class="form-control mr-sm-2" type="text" value="<%= book['id'] %>" name="volumeId" style="display: none;">
-                    <input class="form-control mr-sm-2" type="text" value="<%= title %>" name="title" style="display: none;">
-                    <input class="form-control mr-sm-2" type="text" value="<%= author %>" name="author" style="display: none;">
-                    <input class="form-control mr-sm-2" type="text" value="<%= image %>" name="image" style="display: none;">
-                    <input class="form-control mr-sm-2" type="text" value="<%= description %>" name="description" style="display: none;">
-                    <input class="btn btn-dark btn-large my-2 my-sm-0" type="submit" value="Add To Bookshelf">
-                </form>    
-            </div>
+            <form action="/books" method="POST">
+                <input class="form-control mr-sm-2" type="text" value="<%= book['id'] %>" name="volumeId" style="display: none;">
+                <input class="form-control mr-sm-2" type="text" value="<%= title %>" name="title" style="display: none;">
+                <input class="form-control mr-sm-2" type="text" value="<%= author %>" name="author" style="display: none;">
+                <input class="form-control mr-sm-2" type="text" value="<%= image %>" name="image" style="display: none;">
+                <input class="form-control mr-sm-2" type="text" value="<%= description %>" name="description" style="display: none;">
+                <input class="btn btn-dark btn-large" type="submit" value="Add To Bookshelf">
+            </form>
         </div>
     </div>
-
 </div>
 <% include ../partials/footer %>
 

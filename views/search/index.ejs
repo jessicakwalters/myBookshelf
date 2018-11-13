@@ -1,19 +1,21 @@
 <% include ../partials/header %>
-
-<div class = "container">
-    <div class="card-columns">
-        <% if (data["items"]){ 
-            data["items"].forEach((book) => { %>
-            <div class="card">
+<div class="container text-center styled-text search-results">
+        <h1>Search Results for: <%= term %></h1>
+        <% include ../partials/searchBlock %>
+    </div>
+<div class = "container px-0">
+    <ul class="list-unstyled">
+        <%  data['items'].forEach((book) => { %>
+                <li class="media bg-light mt-2 py-4 px-4">
                     <% let id = book['id'];
-                    let image = "/images/blankbook.jpg";
-                    if (book['volumeInfo']['imageLinks']['thumbnail']){
+                    let image = "/images/default-book-cover.jpg";
+                    if (book['volumeInfo']['imageLinks']){
                         image = book['volumeInfo']['imageLinks']['thumbnail']; 
                     } %>
                     <div class="image-container">
-                        <img  src="<%= image %>" alt="cover image" >
+                        <img  src="<%= image %>" alt="cover image" width="128px">
                     </div>
-                <div class="card-body">
+                <div class="media-body">
                     <h5 class="card-title">
                         <% let title = book['volumeInfo']['title'];
                         if (title){ %>
@@ -33,13 +35,13 @@
                         <% } %>
                     </p>
                     <p>
-                        <a href="search_results/<%= id %>" class="btn btn-link">More Info</a>
+                        <a href="search_results/<%= id %>" class="btn btn-dark mt-4">More Info</a>
                     </p>
                 </div>
-            </div>
-            <% });
-        } %> 
-    </div>
+            </li>
+            <% }); %>
+        
+    </ul>
 </div>
 
 <% include ../partials/footer %>

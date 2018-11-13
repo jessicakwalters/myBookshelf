@@ -1,13 +1,16 @@
 <% include ../partials/header %>
-
-<div class = "container">
-    <div class="card-columns">
+<div class="container text-center styled-text search-results">
+        <h1>Community Library</h1>
+        <% include ../partials/searchBlock %>
+    </div>
+<div class = "container px-0">
+    <ul class="list-unstyled">
         <% books.forEach((book) => { %>
-            <div class="card">
+            <li class="media bg-light mt-2 py-4 px-4">
                 <div class="image-container">
                     <img src="<%= book.image %>" alt="cover image">
                 </div>
-                <div class="card-body">
+                <div class="media-body">
                     <h5 class="card-title">
                             <%= book.title; %>
                     </h5>
@@ -17,13 +20,13 @@
                     <p class="card-text card-text-short">
                             <%= book.description; %>
                     </p>
-                    <p>
+                    <p class="pt-4">
                         <a href="/books/<%= book._id %>" class="btn btn-dark">More</a>
                     </p>
                 </div>
-            </div>
+            </li>
             <% }); %>
-    </div>
+        </ul>
 </div>
 
 <% include ../partials/footer %>

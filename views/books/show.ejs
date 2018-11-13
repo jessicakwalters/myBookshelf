@@ -1,8 +1,12 @@
 <% include ../partials/header %>
-<div class="container">
-    <div class="card border-0">
-            <img class="image-container" src="<%= book.image %>" alt="cover image">
-        <div class="card-body">
+<div class="container text-center styled-text search-results">
+        <h1>Details for: <%=book.title %></h1>
+        <% include ../partials/searchBlock %>
+</div>
+<div class="container py-4 pr-4 bg-light">
+    <div class="media">
+            <img class="image-container mr-4" src="<%= book.image %>" alt="cover image">
+        <div class="media-body">
             <h5 class="card-title">
                     <%= book.title %>
             </h5>
@@ -16,38 +20,36 @@
                 <% book.author.forEach((author) => { %>
                 <% if(currentUser && author.id.equals(currentUser._id)) { %>
                     <a class="badge badge-pill badge-dark" href='/books/<%= book._id %>/edit'>Edit Book</a>
+                    <form class="delete-form" action='/books/<%= book._id %>/remove?_method=PUT' method='POST'>
+                        <button class="badge badge-pill badge-light">Remove From My BookShelf</button>
+                    </form>
                     <% } %>
                 <% }); %>
                 <% if(currentUser && book.author[0].id.equals(currentUser._id)) { %>
-                    <form class="delete-form" action='/books/<%= book._id %>?_method=DELETE' method='POST'>
-                        <button class="badge badge-pill badge-light">Delete Book</button>
-                    </form>
+                    
                 <% } %>
-            </div>
-        </div>
-        <div>
-        <%  let showBook = true;
-            book.author.forEach((author) => {
-            if(currentUser && (author.id.equals(currentUser._id))) { 
-                showBook = false;
-            }
-        }); 
-            if(showBook) { %>
-                <form class="my-2 my-lg-0" action="/books/mybooks/<%= book._id %>?_method=PUT" method="POST">
-                    <input class="btn btn-dark btn-large my-2 my-sm-0" type="submit" value="Add To My Bookshelf">
-                </form>  
-            <% } %>
+            <div>
+                <%  let showBook = true;
+                    book.author.forEach((author) => {
+                    if(currentUser && (author.id.equals(currentUser._id))) { 
+                        showBook = false;
+                    }
+                }); 
+                if(showBook) { %>
+                    <form action="/books/mybooks/<%= book._id %>?_method=PUT" method="POST">
+                        <input class="btn btn-dark btn-large" type="submit" value="Add To My Bookshelf">
+                    </form>  
+                <% } %>
+            </div> 
+        </div>    
     </div>
- </div>
- 
+        
 </div>
-    
-<hr>
 
-<div class="text-center container">
-    <a class="btn btn-link btn-block" href="/books/<%= book._id %>/notes/new">Add A Note</a>
+<div class="text-center container w-25 my-5">
+    <a class="btn btn-dark btn-block" href="/books/<%= book._id %>/notes/new">Add A Note</a>
 </div>
-<hr>
+
 <div class= container>
     <div class="card-columns">
         <% book.notes.forEach((note) => { %>

@@ -10,13 +10,13 @@
     <title>My Bookshelf</title>
 </head>
 <body id="landing-page">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top styled-text">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="/books">My BookShelf</a>
+                        <a class="navbar-brand" href="/"><img src="/images/bookshelf-logo.svg" width="30" height="30">  My Bookshelf</a>
                     </div>
                     <div class="collapse navbar-collapse justify-content-end">
-                        <ul class="navbar-nav ">
+                        <ul class="navbar-nav">
                             <% if(!currentUser){ %>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/login">Login</a>
@@ -24,26 +24,32 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="/register">SignUp</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/books">Library</a>
+                                </li>
                             <% } else { %>
+                                <li class="nav item nav-link">
+                                        Welcome, <%= currentUser.username %>!                        
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="/books/mybooks">My Bookshelf</a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="/books/">Library</a>
+                                </li>
+                                <li class="nav item">
+                                    <a class="nav-link" href="/logout">Logout</a>
+                                </li>
+                                
                             
-                            <li class="nav item">
-                                <a class="nav-link" href="/logout">Logout</a>
-                            </li>
-                            <li class="nav item nav-link">
-                                Welcome <%= currentUser.username %>                        
-                            </li>
                             <% } %>
                         </ul>
                     </div>
                 </div>
             </nav>
-    <div class="container">
-        <div class="row">
-                <h1 class="styled-text text-center page-center">Welcome to Your Bookshelf</h1>
-                <% include ./partials/searchBlock %>
-        </div>
-
-        
+    <div class="container styled-text">
+        <h1 class=" text-center page-center">Welcome to Your Bookshelf</h1>
+        <% include ./partials/searchBlock %>        
     </div>
     
 </body>

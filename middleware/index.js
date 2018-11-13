@@ -2,17 +2,19 @@ const middlewareObj = {};
 const Book = require('../models/book');
 const Note = require('../models/note');
 
+//ISSUE WITH THIS -- something is brokenish
+
 middlewareObj.checkBookOwner = (req, res, next) => {
   if(req.isAuthenticated()){
     Book.findById(req.params.id, (err, foundBook) => {
       if(err){
         res.redirect('back');
       } else {
-        if(foundBook.author[0].id.equals(req.user._id)){
-          next();
-        } else {
-          res.redirect('back');
-        }
+        foundBook.author.forEach((person)=>{
+          if(person.id.equals(req.user._id)){
+            next();
+          }
+        });
       }
     });
   } else {
